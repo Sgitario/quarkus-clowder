@@ -142,7 +142,8 @@ Let's add a simple clowder config file named `cdappconfig.json` at `src/main/res
     "port": 15432,
     "sslMode": "require",
     "username": "aUser"
-  }
+  },
+  "webPort": 8000
 }
 ----
 
@@ -182,6 +183,9 @@ And finally, we'll see the expected value by hitting the `/database/name` endpoi
 
 [source,bash]
 ----
-curl localhost:8080/database/name
+curl localhost:8000/database/name
 some-db
 ----
+
+**Note**: The Quarkus service will be listening on port 8000 because the Clowder file contains `webPort: 8000`.
+

@@ -15,8 +15,7 @@ import io.quarkus.test.junit.QuarkusTest;
 class EndpointTest {
     @Test
     void testIntegrateClowderPropertiesToQuarkus() {
-        given()
-                .when().get("/database/name")
+        given().when().get("/database/name")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body(is("some-db"));
