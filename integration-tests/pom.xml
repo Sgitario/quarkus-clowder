@@ -12,6 +12,6 @@
   <name>Quarkus - Clowder - Integration Tests</name>
 
   <modules>
-    <module>clowder-minimal</module>
+    <module>minimal</module>
   </modules>
 </project>

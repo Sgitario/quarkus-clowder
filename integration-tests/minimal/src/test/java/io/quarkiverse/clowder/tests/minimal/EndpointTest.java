@@ -12,13 +12,13 @@ import io.quarkus.test.junit.QuarkusTest;
  * Quarkus Tests should be compatible with the Clowder extension.
  */
 @QuarkusTest
-public class EndpointTest {
+class EndpointTest {
     @Test
-    public void testEndpoint() {
+    void testIntegrateClowderPropertiesToQuarkus() {
         given()
-                .when().get()
+                .when().get("/database/name")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body(is("Hello, World!"));
+                .body(is("some-db"));
     }
 }
