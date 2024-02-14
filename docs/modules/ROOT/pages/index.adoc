@@ -6,4 +6,182 @@ include::./includes/attributes.adoc[]
 :config-file: application.properties
 :extension-status: preview
 
-TODO
+[Clowder](https://github.com/RedHatInsights/clowder) is a kubernetes operator designed to make it easy to deploy
+applications running on the cloud.redhat.com platform in production, testing and local development environments.
+
+When deploying a Quarkus service on the cloud, the Clowder operator provides a config file that the services need
+to use for configuring the datasource, kafka, logging, etc. The clowder config file looks like:
+
+[source,json]
+----
+{
+  "database": {
+    "adminPassword": "s3cr3t",
+    "adminUsername": "postgres",
+    "hostname": "some.host",
+    "name": "some-db",
+    "password": "secret",
+    "port": 15432,
+    "sslMode": "require",
+    "username": "aUser"
+  },
+  "endpoints": [
+    {
+      "app": "notifications",
+      "hostname": "n-api.svc",
+      "name": "api",
+      "port": 8000
+    },
+    {
+      "app": "notifications",
+      "hostname": "n-gw.svc",
+      "name": "gw",
+      "port": 8000
+    }
+  ],
+  "kafka": {
+    "brokers": [
+      {
+        "hostname": "ephemeral-host.svc",
+        "port": 29092
+      }
+    ],
+    "topics": [
+      {
+        "name": "platform-tmp-12345",
+        "requestedName": "platform.notifications.ingress"
+      },
+      {
+        "name": "platform-tmp-666",
+        "requestedName": "platform.notifications.alerts"
+      }
+    ]
+  },
+  "logging": {
+    "cloudwatch": {
+      "accessKeyId": "my-key-id",
+      "logGroup": "my-log-group",
+      "region": "eu-central-1",
+      "secretAccessKey": "very-secret"
+    },
+    "type": "cloudwatch"
+  },
+  "metricsPath": "/metrics",
+  "metricsPort": 9000,
+  "privatePort": 10000,
+  "publicPort": 8000,
+  "webPort": 8000
+}
+----
+
+This extension eases the integration with the Clowder configuration by loading the file and autoconfiguring some extensions like Quarkus datasource and Quarkus messaging.
+
+Before getting started, make sure you're using the right Quarkus Clowder version that is compatible with the Quarkus version you're using in your project. See the following table to see the compatibility among versions:
+
+[%header,format=csv]
+|===
+Quarkus Clowder Version,Quarkus Version
+0.0.0,Quarkus 3.7.0+
+|===
+
+[[usage-clowder]]
+== Using the Clowder Extension
+
+To complete this guide, you need:
+
+* roughly 10 minutes
+* JDK 17+ installed with `JAVA_HOME` configured appropriately
+* Apache Maven {maven-version}
+
+=== Create a Quarkus application with the Clowder extension
+
+In this example, we'll create a Quarkus application with the Quarkus Clowder extension by running the following command:
+
+[source,bash,subs=attributes+]
+----
+mvn io.quarkus.platform:quarkus-maven-plugin:{quarkus-version}:create \
+    -DprojectGroupId=org.acme \
+    -DprojectArtifactId=clowder-quickstart \
+    -DclassName="org.acme.quickstart.GreetingResource" \
+    -Dpath="/hello" \
+    -Dextensions="resteasy-reactive,clowder"
+cd clowder-quickstart
+----
+
+If you already have your Quarkus project configured, you can add the `clowder` extension to your project by running the following command in your project base directory:
+
+[source,bash]
+----
+./mvnw quarkus:add-extension -Dextensions="clowder"
+----
+
+This command will add the following dependency to your `pom.xml` file:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>io.quarkiverse.clowder</groupId>
+    <artifactId>quarkus-clowder</artifactId>
+    <version>{quarkus-clowder-version}</version>
+</dependency>
+----
+
+Next, you need to configure the location where the clowder config file will be located when running the service. The default location is `/cdapp/cdappconfig.json` but it can be configured by using the `quarkus.clowder.config-path` property.
+
+Let's add a simple clowder config file named `cdappconfig.json` at `src/main/resources` with the following content:
+
+[source,json]
+----
+{
+  "database": {
+    "adminPassword": "s3cr3t",
+    "adminUsername": "postgres",
+    "hostname": "some.host",
+    "name": "some-db",
+    "password": "secret",
+    "port": 15432,
+    "sslMode": "require",
+    "username": "aUser"
+  }
+}
+----
+
+And configure our application to use it:
+
+[source,properties]
+----
+quarkus.clowder.config-path=src/main/resources/cdappconfig.json
+----
+
+Automatically, the extension will expose all the properties within the clowder config file using the prefix `clowder.`. So, let's add a service that displays the database name as follows:
+
+[source,java]
+----
+@Path("")
+public class Endpoint {
+
+    @ConfigProperty(name = "clowder.database.name")
+    String databaseName;
+
+    @GET
+    @Path("/database/name")
+    public String getDatabaseName() {
+        return databaseName;
+    }
+}
+----
+
+Next, let's run our service in Quarkus DEV mode:
+
+[source,bash]
+----
+./mvnw quarkus:dev
+----
+
+And finally, we'll see the expected value by hitting the `/database/name` endpoint:
+
+[source,bash]
+----
+curl localhost:8080/database/name
+some-db
+----
