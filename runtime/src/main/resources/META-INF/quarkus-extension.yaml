@@ -1,0 +1,11 @@
+---
+name: Quarkus - Clowder
+description: Quarkus extension for Clowder
+metadata:
+  keywords:
+  - clowder
+  - kubernetes
+  - openshift
+  categories:
+  - "cloud"
+  status: "preview"

@@ -1,0 +1,9 @@
+[[clowder-extension-for-quarkus]]
+= Clowder Extension for Quarkus
+
+include::./includes/attributes.adoc[]
+
+:config-file: application.properties
+:extension-status: preview
+
+TODO

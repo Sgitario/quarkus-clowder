@@ -1,0 +1,2 @@
+* xref:index.adoc#clowder-extension-for-quarkus[Clowder Extension for Quarkus]
+* xref:includes/quarkus-clowder.adoc[Configuration Reference]

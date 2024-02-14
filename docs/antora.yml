@@ -1,0 +1,5 @@
+name: quarkus-clowder
+title: Clowder
+version: dev
+nav:
+  - modules/ROOT/nav.adoc
