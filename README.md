@@ -30,7 +30,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/Sgitario"><img src="https://avatars.githubusercontent.com/u/6310047?v=4&s=100" width="100px;" alt=""/><br /><sub><b>Jose Carvajal</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-clowder/commits?author=Sgitario" title="Code">💻</a> <a href="#maintenance-sgitario" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://github.com/Sgitario"><img src="https://avatars.githubusercontent.com/u/6310047?v=4&s=100" width="100px;" alt=""/><br /><sub><b>Jose Carvajal</b></sub></a><br /><a href="https://github.com/Sgitario/quarkus-clowder/commits?author=Sgitario" title="Code">💻</a> <a href="#maintenance-sgitario" title="Maintenance">🚧</a></td>
   </tr>
 </table>
 

@@ -18,9 +18,9 @@
     <module>docs</module>
   </modules>
   <scm>
-    <connection>scm:git:git@github.com:quarkiverse/quarkus-clowder.git</connection>
-    <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-clowder.git</developerConnection>
-    <url>https://github.com/quarkiverse/quarkus-clowder</url>
+    <connection>scm:git:git@github.com:Sgitario/quarkus-clowder.git</connection>
+    <developerConnection>scm:git:git@github.com:Sgitario/quarkus-clowder.git</developerConnection>
+    <url>https://github.com/Sgitario/quarkus-clowder</url>
     <tag>HEAD</tag>
   </scm>
   <properties>
