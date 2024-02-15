@@ -5,6 +5,9 @@ import static io.quarkiverse.clowder.utils.ConfigUtils.HIBERNATE_ORM;
 import static io.quarkiverse.clowder.utils.ConfigUtils.HIBERNATE_REACTIVE;
 import static io.quarkiverse.clowder.utils.ConfigUtils.KAFKA;
 import static io.quarkiverse.clowder.utils.ConfigUtils.QUARKUS_DATASOURCE_DB_KIND;
+import static io.quarkiverse.clowder.utils.ConfigUtils.QUARKUS_MICROMETER_ENABLED;
+import static io.quarkiverse.clowder.utils.ConfigUtils.QUARKUS_MICROMETER_EXPORT_PROMETHEUS_ENABLED;
+import static io.quarkiverse.clowder.utils.ConfigUtils.getBooleanApplicationProperty;
 import static io.quarkiverse.clowder.utils.ConfigUtils.getOptionalApplicationProperty;
 import static io.quarkiverse.clowder.utils.ConfigUtils.isCapabilityPresent;
 
@@ -16,6 +19,7 @@ import org.jboss.logging.Logger;
 import io.quarkiverse.clowder.sources.ClowderJsonConfigSource;
 import io.quarkiverse.clowder.sources.JdbcDataSourceQuarkusClowderPropertyConfigSource;
 import io.quarkiverse.clowder.sources.KafkaQuarkusClowderPropertyConfigSource;
+import io.quarkiverse.clowder.sources.MetricsQuarkusClowderPropertyConfigSource;
 import io.quarkiverse.clowder.sources.ReactiveDataSourceQuarkusClowderPropertyConfigSource;
 import io.quarkiverse.clowder.sources.WebPortQuarkusClowderPropertyConfigSource;
 import io.quarkus.runtime.configuration.ConfigBuilder;
@@ -45,8 +49,20 @@ public class ClowderConfigSourceFactoryBuilder implements ConfigBuilder {
                 builder = builder.withSources(clowderJdbcDataSource());
             }
         }
+        if (isFeatureEnabled(ClowderFeature.METRICS) && isMicrometerPrometheusEnabled() && isClowderMetricsConfigured()) {
+            builder = builder.withSources(clowderMetrics());
+        }
 
         return builder;
+    }
+
+    private boolean isMicrometerPrometheusEnabled() {
+        return getBooleanApplicationProperty(QUARKUS_MICROMETER_ENABLED)
+                && getBooleanApplicationProperty(QUARKUS_MICROMETER_EXPORT_PROMETHEUS_ENABLED);
+    }
+
+    private boolean isClowderMetricsConfigured() {
+        return ClowderRecorder.model.metricsPath != null && ClowderRecorder.model.metricsPort != null;
     }
 
     private boolean isFeatureEnabled(ClowderFeature clowderFeature) {
@@ -96,5 +112,9 @@ public class ClowderConfigSourceFactoryBuilder implements ConfigBuilder {
 
     private static KafkaQuarkusClowderPropertyConfigSource clowderKafka() {
         return new KafkaQuarkusClowderPropertyConfigSource();
+    }
+
+    private static MetricsQuarkusClowderPropertyConfigSource clowderMetrics() {
+        return new MetricsQuarkusClowderPropertyConfigSource();
     }
 }

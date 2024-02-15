@@ -17,5 +17,6 @@
     <module>database-jdbc</module>
     <module>database-reactive</module>
     <module>kafka</module>
+    <module>micrometer</module>
   </modules>
 </project>

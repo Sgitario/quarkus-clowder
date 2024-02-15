@@ -13,11 +13,17 @@ public class ConfigUtils {
     public static final String HIBERNATE_ORM = QUARKUS_PREFIX + ".hibernate.orm";
     public static final String QUARKUS_DATASOURCE = "quarkus.datasource.";
     public static final String QUARKUS_DATASOURCE_DB_KIND = QUARKUS_DATASOURCE + "db-kind";
+    public static final String QUARKUS_MICROMETER_ENABLED = "quarkus.micrometer.enabled";
+    public static final String QUARKUS_MICROMETER_EXPORT_PROMETHEUS_ENABLED = "quarkus.micrometer.export.prometheus.enabled";
     public static final String CLOWDER_DATASOURCE_PORT = "quarkus.clowder.datasource.port";
     public static final String CLOWDER_KAFKA_PORT = "quarkus.clowder.kafka.port";
 
     private ConfigUtils() {
 
+    }
+
+    public static boolean getBooleanApplicationProperty(String key) {
+        return getOptionalApplicationProperty(key).map(Boolean::parseBoolean).orElse(false);
     }
 
     public static Optional<String> getOptionalApplicationProperty(String key) {
