@@ -140,7 +140,7 @@ to use for configuring the datasource, kafka, logging, etc. The clowder config f
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">mvn io.quarkus.platform:quarkus-maven-plugin:3.7.2:create \
+<pre class="CodeRay highlight"><code data-lang="bash">mvn io.quarkus.platform:quarkus-maven-plugin:3.7.3:create \
     -DprojectGroupId=org.acme \
     -DprojectArtifactId=clowder-quickstart \
     -DclassName=&quot;org.acme.quickstart.GreetingResource&quot; \
@@ -325,6 +325,45 @@ mp.messaging.incoming.prices.topic=${clowder.kafka.topics.platform.notifications
 </div>
 </div>
 <div class="sect1">
+<h2 id="metrics-configuration"><a class="anchor" href="#metrics-configuration"></a>Metrics Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Quarkus Clowder configuration will automatically validate and configure the Quarkus Micrometer Prometheus extension.
+All you need is to provide the metrics configuration in the clowder config file as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="error">.</span><span class="error">.</span><span class="error">.</span>
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">metricsPath</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">/metrics</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">metricsPort</span><span class="delimiter">&quot;</span></span>: <span class="integer">9000</span>,
+  <span class="error">.</span><span class="error">.</span><span class="error">.</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A strong requirement to properly configure the Clowder metrics is to enable the HTTP management in port with the right root path:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="properties">quarkus.management.enabled=true
+quarkus.management.root-path=/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>These properties are build-time, so we can&#8217;t overwrite/autopopulate them at runtime. The Quarkus Clowder extension will validate that the above properties are set as expected and will throw an exception at runtime.</p>
+</div>
+<div class="paragraph">
+<p>Finally, the metrics path will be listening on:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">curl localhost:9000/metrics</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="configuration-reference"><a class="anchor" href="#configuration-reference"></a>Configuration Reference</h2>
 <div class="sectionbody">
 <div class="paragraph configuration-legend">
@@ -478,6 +517,23 @@ mp.messaging.incoming.prices.topic=${clowder.kafka.topics.platform.notifications
 <td class="tableblock halign-left valign-middle"><p class="tableblock">boolean</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><code>true</code></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-metrics-enabled"></a><code><a href="#quarkus-clowder_quarkus-clowder-metrics-enabled">quarkus.clowder.metrics.enabled</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Enable/Disable the clowder feature.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_METRICS_ENABLED</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>true</code></p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -485,7 +541,7 @@ mp.messaging.incoming.prices.topic=${clowder.kafka.topics.platform.notifications
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-15 14:23:06 +0100
+Last updated 2024-02-15 15:54:15 +0100
 </div>
 </div>
 </body>

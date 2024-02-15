@@ -16,5 +16,9 @@ public enum ClowderFeature {
     /**
      * Feature to configure Kafka using the Clowder configuration.
      */
-    KAFKA
+    KAFKA,
+    /**
+     * Feature to configure the metrics (micrometer) using the Clowder configuration.
+     */
+    METRICS
 }

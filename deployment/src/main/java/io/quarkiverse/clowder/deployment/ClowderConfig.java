@@ -47,4 +47,10 @@ public interface ClowderConfig {
      * Configure the Clowder Kafka feature which is used to configure Kafka using the Clowder configuration.
      */
     ClowderFeatureConfig kafka();
+
+    /**
+     * Configure the Clowder metrics feature which is used to configure micrometer and HTTP management using the Clowder
+     * configuration.
+     */
+    ClowderFeatureConfig metrics();
 }

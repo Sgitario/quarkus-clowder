@@ -47,6 +47,7 @@ public class ClowderProcessor {
             case CONFIG -> config.config().enabled();
             case DATASOURCE -> config.datasource().enabled();
             case KAFKA -> config.kafka().enabled();
+            case METRICS -> config.metrics().enabled();
         };
     }
 }
