@@ -1,16 +1,16 @@
-package io.quarkiverse.clowder.utils;
+package io.quarkiverse.clowder.sources;
 
 import java.util.Map;
 
 import io.quarkiverse.clowder.model.Clowder;
 
-public class QuarkusClowderWebPortPropertyConfigSource extends QuarkusClowderPropertyConfigSource {
+public class WebPortQuarkusClowderPropertyConfigSource extends QuarkusClowderPropertyConfigSource {
 
     private static final String QUARKUS_HTTP_PORT = "quarkus.http.port";
     private static final String QUARKUS_HTTP_TEST_PORT = "quarkus.http.test-port";
 
-    public QuarkusClowderWebPortPropertyConfigSource(Clowder model) {
-        super(QuarkusClowderWebPortPropertyConfigSource.class.getSimpleName(), load(model));
+    public WebPortQuarkusClowderPropertyConfigSource(Clowder model) {
+        super(WebPortQuarkusClowderPropertyConfigSource.class.getSimpleName(), load(model));
     }
 
     private static Map<String, String> load(Clowder clowder) {

@@ -22,7 +22,7 @@ public class ClowderProcessor {
 
     @BuildStep(onlyIf = ClowderEnabled.class)
     @Record(ExecutionTime.STATIC_INIT)
-    void setup(ClowderConfig config, ClowderRecorder recorder) {
+    void init(ClowderConfig config, ClowderRecorder recorder) {
         recorder.loadClowder(config.prefix(), config.configPath());
     }
 }

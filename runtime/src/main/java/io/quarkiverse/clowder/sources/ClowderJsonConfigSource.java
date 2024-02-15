@@ -1,4 +1,4 @@
-package io.quarkiverse.clowder.utils;
+package io.quarkiverse.clowder.sources;
 
 import static java.util.Collections.singletonMap;
 

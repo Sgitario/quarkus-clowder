@@ -1,0 +1,12 @@
+{
+  "database": {
+    "hostname": "localhost",
+    "name": "some-db",
+    "password": "secret",
+    "port": 15432,
+    "username": "aUser"
+  },
+  "privatePort": 10000,
+  "publicPort": 8000,
+  "webPort": 8000
+}

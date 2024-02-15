@@ -12,6 +12,9 @@
   <name>Quarkus - Clowder - Integration Tests</name>
 
   <modules>
+    <module>test-utils</module>
     <module>minimal</module>
+    <module>database-jdbc</module>
+    <module>database-reactive</module>
   </modules>
 </project>
