@@ -13,7 +13,7 @@ It provides configuration properties to configure the chart metadata and values.
 
 ## Documentation
 
-The documentation for this extension can be found [here](https://quarkiverse.github.io/quarkiverse-docs/quarkus-clowder/dev/index.html).
+The documentation for this extension can be found [here](https://sgitario.github.io/quarkus-clowder/).
 
 ## Compatibility with Quarkus
 

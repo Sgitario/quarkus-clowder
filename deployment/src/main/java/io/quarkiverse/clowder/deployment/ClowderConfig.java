@@ -27,4 +27,19 @@ public interface ClowderConfig {
      */
     @WithDefault("clowder.")
     String prefix();
+
+    /**
+     * Configure the Clowder config feature which is used to inject the clowder configuration as Quarkus config source.
+     */
+    ClowderFeatureConfig config();
+
+    /**
+     * Configure the Clowder web feature which is used to configure the web ports using the Clowder configuration.
+     */
+    ClowderFeatureConfig web();
+
+    /**
+     * Configure the Clowder data source feature which is used to configure the data sources using the Clowder configuration.
+     */
+    ClowderFeatureConfig datasource();
 }

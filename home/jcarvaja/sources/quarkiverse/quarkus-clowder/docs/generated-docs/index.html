@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>Clowder Extension for Quarkus</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<link rel="stylesheet" href="./asciidoctor.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="./coderay-asciidoctor.css">
+</head>
+<body id="clowder-extension-for-quarkus" class="article">
+<div id="header">
+<h1>Clowder Extension for Quarkus</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://github.com/RedHatInsights/clowder">Clowder</a> is a kubernetes operator designed to make it easy to deploy
+applications running on the cloud.redhat.com platform in production, testing and local development environments.</p>
+</div>
+<div class="paragraph">
+<p>When deploying a Quarkus service on the cloud, the Clowder operator provides a config file that the services need
+to use for configuring the datasource, kafka, logging, etc. The clowder config file looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">database</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">adminPassword</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">s3cr3t</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">adminUsername</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">postgres</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">hostname</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">some.host</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">some-db</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">password</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">secret</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">port</span><span class="delimiter">&quot;</span></span>: <span class="integer">15432</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">sslMode</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">require</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">username</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">aUser</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">endpoints</span><span class="delimiter">&quot;</span></span>: [
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">app</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">notifications</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">hostname</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">n-api.svc</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">api</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">port</span><span class="delimiter">&quot;</span></span>: <span class="integer">8000</span>
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">app</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">notifications</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">hostname</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">n-gw.svc</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">gw</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">port</span><span class="delimiter">&quot;</span></span>: <span class="integer">8000</span>
+    }
+  ],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">kafka</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">brokers</span><span class="delimiter">&quot;</span></span>: [
+      {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">hostname</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ephemeral-host.svc</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">port</span><span class="delimiter">&quot;</span></span>: <span class="integer">29092</span>
+      }
+    ],
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">topics</span><span class="delimiter">&quot;</span></span>: [
+      {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">platform-tmp-12345</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">requestedName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">platform.notifications.ingress</span><span class="delimiter">&quot;</span></span>
+      },
+      {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">platform-tmp-666</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">requestedName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">platform.notifications.alerts</span><span class="delimiter">&quot;</span></span>
+      }
+    ]
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">logging</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">cloudwatch</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">accessKeyId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">my-key-id</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">logGroup</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">my-log-group</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">region</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">eu-central-1</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">secretAccessKey</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">very-secret</span><span class="delimiter">&quot;</span></span>
+    },
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">cloudwatch</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">metricsPath</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">/metrics</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">metricsPort</span><span class="delimiter">&quot;</span></span>: <span class="integer">9000</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">privatePort</span><span class="delimiter">&quot;</span></span>: <span class="integer">10000</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">publicPort</span><span class="delimiter">&quot;</span></span>: <span class="integer">8000</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">webPort</span><span class="delimiter">&quot;</span></span>: <span class="integer">8000</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This extension eases the integration with the Clowder configuration by loading the file and autoconfiguring some extensions like Quarkus datasource and Quarkus messaging.</p>
+</div>
+<div class="paragraph">
+<p>Before getting started, make sure you&#8217;re using the right Quarkus Clowder version that is compatible with the Quarkus version you&#8217;re using in your project. See the following table to see the compatibility among versions:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Quarkus Clowder Version</th>
+<th class="tableblock halign-left valign-top">Quarkus Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quarkus 3.7.0+</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="usage-clowder"><a class="anchor" href="#usage-clowder"></a>Using the Clowder Extension</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To complete this guide, you need:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>roughly 10 minutes</p>
+</li>
+<li>
+<p>JDK 17+ installed with <code>JAVA_HOME</code> configured appropriately</p>
+</li>
+<li>
+<p>Apache Maven 3.8.1+</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="create-a-quarkus-application-with-the-clowder-extension"><a class="anchor" href="#create-a-quarkus-application-with-the-clowder-extension"></a>Create a Quarkus application with the Clowder extension</h3>
+<div class="paragraph">
+<p>In this example, we&#8217;ll create a Quarkus application with the Quarkus Clowder extension by running the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">mvn io.quarkus.platform:quarkus-maven-plugin:3.7.2:create \
+    -DprojectGroupId=org.acme \
+    -DprojectArtifactId=clowder-quickstart \
+    -DclassName=&quot;org.acme.quickstart.GreetingResource&quot; \
+    -Dpath=&quot;/hello&quot; \
+    -Dextensions=&quot;resteasy-reactive,clowder&quot;
+cd clowder-quickstart</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you already have your Quarkus project configured, you can add the <code>clowder</code> extension to your project by running the following command in your project base directory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">./mvnw quarkus:add-extension -Dextensions=&quot;clowder&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command will add the following dependency to your <code>pom.xml</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>io.quarkiverse.clowder<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>quarkus-clowder<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>0.0.0<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next, you need to configure the location where the clowder config file will be located when running the service. The default location is <code>/cdapp/cdappconfig.json</code> but it can be configured by using the <code>quarkus.clowder.config-path</code> property.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s add a simple clowder config file named <code>cdappconfig.json</code> at <code>src/main/resources</code> with the following content:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">database</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">adminPassword</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">s3cr3t</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">adminUsername</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">postgres</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">hostname</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">some.host</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">some-db</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">password</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">secret</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">port</span><span class="delimiter">&quot;</span></span>: <span class="integer">15432</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">sslMode</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">require</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">username</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">aUser</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">webPort</span><span class="delimiter">&quot;</span></span>: <span class="integer">8000</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And configure our application to use it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="properties">quarkus.clowder.config-path=src/main/resources/cdappconfig.json</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Automatically, the extension will expose all the properties within the clowder config file using the prefix <code>clowder.</code>. So, let&#8217;s add a service that displays the database name as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Path</span>(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">Endpoint</span> {
+
+    <span class="annotation">@ConfigProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">clowder.database.name</span><span class="delimiter">&quot;</span></span>)
+    <span class="predefined-type">String</span> databaseName;
+
+    <span class="annotation">@GET</span>
+    <span class="annotation">@Path</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/database/name</span><span class="delimiter">&quot;</span></span>)
+    <span class="directive">public</span> <span class="predefined-type">String</span> getDatabaseName() {
+        <span class="keyword">return</span> databaseName;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next, let&#8217;s run our service in Quarkus DEV mode:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">./mvnw quarkus:dev</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And finally, we&#8217;ll see the expected value by hitting the <code>/database/name</code> endpoint:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">curl localhost:8000/database/name
+some-db</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: The Quarkus service will be listening on port 8000 because the Clowder file contains <code>webPort: 8000</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuration-reference"><a class="anchor" href="#configuration-reference"></a>Configuration Reference</h2>
+<div class="sectionbody">
+<div class="paragraph configuration-legend">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> Configuration property fixed at build time - All other configuration properties are overridable at runtime</p>
+</div>
+<table class="tableblock frame-all grid-all stretch configuration-reference searchable">
+<colgroup>
+<col style="width: 80%;">
+<col style="width: 10%;">
+<col style="width: 10%;">
+</colgroup>
+<tbody>
+<tr>
+<th class="tableblock halign-left valign-top"><p class="tableblock"><a id="quarkus-clowder_configuration"></a><a href="#quarkus-clowder_configuration">Configuration property</a></p></th>
+<th class="tableblock halign-left valign-middle"><p class="tableblock">Type</p></th>
+<th class="tableblock halign-left valign-middle"><p class="tableblock">Default</p></th>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-enabled"></a><code><a href="#quarkus-clowder_quarkus-clowder-enabled">quarkus.clowder.enabled</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Enable/Disable the clowder extension.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_ENABLED</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>true</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-config-path"></a><code><a href="#quarkus-clowder_quarkus-clowder-config-path">quarkus.clowder.config-path</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Location of the clowder config file. The default location is provided either from the property <code>acg.config</code> which default path is <code>/cdapp/cdappconfig.json</code>.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_CONFIG_PATH</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>${acg.config:/cdapp/cdappconfig.json}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-prefix"></a><code><a href="#quarkus-clowder_quarkus-clowder-prefix">quarkus.clowder.prefix</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Prefix where all the properties found at the <code>quarkus.clowder.config-path</code> location can be found.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_PREFIX</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>clowder.</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-features-features-enabled"></a><code><a href="#quarkus-clowder_quarkus-clowder-features-features-enabled">quarkus.clowder.features."features".enabled</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Enable/Disable the clowder feature.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_FEATURES__FEATURES__ENABLED</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>true</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-02-15 10:00:11 +0100
+</div>
+</div>
+</body>
+</html>
