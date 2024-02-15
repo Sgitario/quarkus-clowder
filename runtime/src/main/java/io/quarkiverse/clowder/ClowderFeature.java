@@ -12,5 +12,9 @@ public enum ClowderFeature {
     /**
      * Feature to configure the data sources using the Clowder configuration.
      */
-    DATASOURCE;
+    DATASOURCE,
+    /**
+     * Feature to configure Kafka using the Clowder configuration.
+     */
+    KAFKA
 }

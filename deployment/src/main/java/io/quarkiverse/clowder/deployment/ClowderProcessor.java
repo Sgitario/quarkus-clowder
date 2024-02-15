@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import io.quarkiverse.clowder.ClowderConfigSourceFactoryBuilder;
 import io.quarkiverse.clowder.ClowderFeature;
 import io.quarkiverse.clowder.ClowderRecorder;
+import io.quarkiverse.clowder.config.RootConfig;
 import io.quarkus.deployment.Capabilities;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
@@ -29,12 +30,14 @@ public class ClowderProcessor {
     @BuildStep(onlyIf = ClowderEnabled.class)
     @Record(ExecutionTime.STATIC_INIT)
     void init(Capabilities capabilities, ClowderConfig config, ClowderRecorder recorder) {
-        recorder.initialize(capabilities.getCapabilities(),
-                Stream.of(ClowderFeature.values())
-                        .filter(isEnabledInConfig(config))
-                        .collect(Collectors.toUnmodifiableSet()),
-                config.prefix(),
-                config.configPath());
+        RootConfig rootConfig = new RootConfig();
+        rootConfig.enabledFeatures = Stream.of(ClowderFeature.values())
+                .filter(isEnabledInConfig(config))
+                .collect(Collectors.toUnmodifiableSet());
+        rootConfig.prefix = config.prefix();
+        rootConfig.configPath = config.configPath();
+
+        recorder.initialize(capabilities.getCapabilities(), rootConfig);
     }
 
     private Predicate<ClowderFeature> isEnabledInConfig(ClowderConfig config) {
@@ -43,6 +46,7 @@ public class ClowderProcessor {
             case WEB -> config.web().enabled();
             case CONFIG -> config.config().enabled();
             case DATASOURCE -> config.datasource().enabled();
+            case KAFKA -> config.kafka().enabled();
         };
     }
 }

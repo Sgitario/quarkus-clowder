@@ -1,0 +1,19 @@
+{
+  "kafka": {
+    "brokers": [
+      {
+        "hostname": "localhost",
+        "port": 29092
+      }
+    ],
+    "topics": [
+      {
+        "name": "platform-tmp-12345",
+        "requestedName": "platform.notifications.ingress"
+      }
+    ]
+  },
+  "privatePort": 10000,
+  "publicPort": 8000,
+  "webPort": 8000
+}

@@ -9,6 +9,7 @@
 
   <artifactId>quarkus-clowder-integration-tests-utils</artifactId>
   <name>Quarkus - Clowder - Integration Tests - Utils</name>
+
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -21,6 +22,19 @@
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>postgresql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>kafka</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkiverse.clowder</groupId>
+      <artifactId>quarkus-clowder</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>

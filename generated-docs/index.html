@@ -283,6 +283,48 @@ All you need is to provide the datasource configuration in the clowder config fi
 </div>
 </div>
 <div class="sect1">
+<h2 id="kafka-configuration"><a class="anchor" href="#kafka-configuration"></a>Kafka Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Quarkus Clowder configuration will automatically configure the Kafka bootstrap servers, plus it will provide some properties to expose the topics from the Clowder config file.
+All you need is to provide the kafka configuration in the clowder config file as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">kafka</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">brokers</span><span class="delimiter">&quot;</span></span>: [
+      {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">hostname</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">localhost</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">port</span><span class="delimiter">&quot;</span></span>: <span class="integer">29092</span>
+      }
+    ],
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">topics</span><span class="delimiter">&quot;</span></span>: [
+      {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">platform-tmp-12345</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">requestedName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">platform.notifications.ingress</span><span class="delimiter">&quot;</span></span>
+      }
+    ]
+  },
+  <span class="error">.</span><span class="error">.</span><span class="error">.</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With the above configuration, the Quarkus Clowder extension will autoconfigure the <code>kafka.bootstrap.servers</code> property and, additionally, it will expose the configured topics as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="properties">mp.messaging.incoming.prices.connector=smallrye-kafka
+mp.messaging.incoming.prices.topic=${clowder.kafka.topics.platform.notifications.ingress}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The property <code>clowder.kafka.topics.platform.notifications.ingress</code> will have the value <code>platform-tmp-12345</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="configuration-reference"><a class="anchor" href="#configuration-reference"></a>Configuration Reference</h2>
 <div class="sectionbody">
 <div class="paragraph configuration-legend">
@@ -402,6 +444,40 @@ All you need is to provide the datasource configuration in the clowder config fi
 <td class="tableblock halign-left valign-middle"><p class="tableblock">boolean</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><code>true</code></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-datasource-port"></a><code><a href="#quarkus-clowder_quarkus-clowder-datasource-port">quarkus.clowder.datasource.port</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Allow to overwrite the datasource port of the clowder config.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_DATASOURCE_PORT</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-kafka-enabled"></a><code><a href="#quarkus-clowder_quarkus-clowder-kafka-enabled">quarkus.clowder.kafka.enabled</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Enable/Disable the clowder feature.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_KAFKA_ENABLED</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>true</code></p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -409,7 +485,7 @@ All you need is to provide the datasource configuration in the clowder config fi
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-15 11:06:46 +0100
+Last updated 2024-02-15 14:23:06 +0100
 </div>
 </div>
 </body>

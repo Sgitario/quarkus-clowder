@@ -41,5 +41,10 @@ public interface ClowderConfig {
     /**
      * Configure the Clowder data source feature which is used to configure the data sources using the Clowder configuration.
      */
-    ClowderFeatureConfig datasource();
+    ClowderDataSourceFeatureConfig datasource();
+
+    /**
+     * Configure the Clowder Kafka feature which is used to configure Kafka using the Clowder configuration.
+     */
+    ClowderFeatureConfig kafka();
 }
