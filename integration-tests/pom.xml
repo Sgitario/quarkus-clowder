@@ -16,5 +16,6 @@
     <module>minimal</module>
     <module>database-jdbc</module>
     <module>database-reactive</module>
+    <module>kafka</module>
   </modules>
 </project>

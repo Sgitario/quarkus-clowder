@@ -111,4 +111,38 @@ endif::add-copy-button-to-env-var[]
 --|boolean 
 |`true`
 
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-datasource-port]]`link:#quarkus-clowder_quarkus-clowder-datasource-port[quarkus.clowder.datasource.port]`
+
+
+[.description]
+--
+Allow to overwrite the datasource port of the clowder config.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_DATASOURCE_PORT+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_DATASOURCE_PORT+++`
+endif::add-copy-button-to-env-var[]
+--|int 
+|
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-kafka-enabled]]`link:#quarkus-clowder_quarkus-clowder-kafka-enabled[quarkus.clowder.kafka.enabled]`
+
+
+[.description]
+--
+Enable/Disable the clowder feature.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_KAFKA_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_KAFKA_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--|boolean 
+|`true`
+
 |===

@@ -3,16 +3,19 @@ package io.quarkiverse.clowder;
 import static io.quarkiverse.clowder.sources.DataSourceQuarkusClowderPropertyConfigSource.POSTGRESQL;
 import static io.quarkiverse.clowder.utils.ConfigUtils.HIBERNATE_ORM;
 import static io.quarkiverse.clowder.utils.ConfigUtils.HIBERNATE_REACTIVE;
+import static io.quarkiverse.clowder.utils.ConfigUtils.KAFKA;
 import static io.quarkiverse.clowder.utils.ConfigUtils.QUARKUS_DATASOURCE_DB_KIND;
 import static io.quarkiverse.clowder.utils.ConfigUtils.getOptionalApplicationProperty;
 import static io.quarkiverse.clowder.utils.ConfigUtils.isCapabilityPresent;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.jboss.logging.Logger;
 
 import io.quarkiverse.clowder.sources.ClowderJsonConfigSource;
 import io.quarkiverse.clowder.sources.JdbcDataSourceQuarkusClowderPropertyConfigSource;
+import io.quarkiverse.clowder.sources.KafkaQuarkusClowderPropertyConfigSource;
 import io.quarkiverse.clowder.sources.ReactiveDataSourceQuarkusClowderPropertyConfigSource;
 import io.quarkiverse.clowder.sources.WebPortQuarkusClowderPropertyConfigSource;
 import io.quarkus.runtime.configuration.ConfigBuilder;
@@ -30,6 +33,9 @@ public class ClowderConfigSourceFactoryBuilder implements ConfigBuilder {
         if (isFeatureEnabled(ClowderFeature.WEB)) {
             builder = builder.withSources(clowderWebPort());
         }
+        if (isFeatureEnabled(ClowderFeature.KAFKA) && isCapabilityPresent(KAFKA)) {
+            builder = builder.withSources(clowderKafka());
+        }
         if (isFeatureEnabled(ClowderFeature.DATASOURCE)
                 && isClowderDataSourceConfigured()
                 && isQuarkusDbKindCompatibleWithClowder()) {
@@ -44,7 +50,7 @@ public class ClowderConfigSourceFactoryBuilder implements ConfigBuilder {
     }
 
     private boolean isFeatureEnabled(ClowderFeature clowderFeature) {
-        return ClowderRecorder.enabledFeatures.contains(clowderFeature);
+        return ClowderRecorder.rootConfig.enabledFeatures.contains(clowderFeature);
     }
 
     private boolean isQuarkusDbKindCompatibleWithClowder() {
@@ -69,8 +75,8 @@ public class ClowderConfigSourceFactoryBuilder implements ConfigBuilder {
 
     private static ClowderJsonConfigSource clowderConfig() {
         try {
-            return new ClowderJsonConfigSource(ClowderRecorder.clowderPrefix,
-                    ClowderRecorder.clowderConfigFile.toURI().toURL());
+            return new ClowderJsonConfigSource(ClowderRecorder.rootConfig.prefix,
+                    new File(ClowderRecorder.rootConfig.configPath).toURI().toURL());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -86,5 +92,9 @@ public class ClowderConfigSourceFactoryBuilder implements ConfigBuilder {
 
     private static ReactiveDataSourceQuarkusClowderPropertyConfigSource clowderReactiveDataSource() {
         return new ReactiveDataSourceQuarkusClowderPropertyConfigSource();
+    }
+
+    private static KafkaQuarkusClowderPropertyConfigSource clowderKafka() {
+        return new KafkaQuarkusClowderPropertyConfigSource();
     }
 }

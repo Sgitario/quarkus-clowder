@@ -12,32 +12,30 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.representer.Representer;
 
+import io.quarkiverse.clowder.config.RootConfig;
 import io.quarkiverse.clowder.model.Clowder;
 import io.quarkus.runtime.annotations.Recorder;
 
 @Recorder
 public class ClowderRecorder {
     public static Set<String> capabilities;
-    public static Set<ClowderFeature> enabledFeatures;
-    public static File clowderConfigFile;
-    public static String clowderPrefix;
+    public static RootConfig rootConfig;
     public static Clowder model;
 
-    public void initialize(Set<String> capabilities, Set<ClowderFeature> enabledFeatures, String prefix, String configFile) {
+    public void initialize(Set<String> capabilities, RootConfig rootConfig) {
         ClowderRecorder.capabilities = capabilities;
-        ClowderRecorder.enabledFeatures = enabledFeatures;
-        ClowderRecorder.clowderPrefix = prefix;
-        ClowderRecorder.clowderConfigFile = new File(configFile);
+        ClowderRecorder.rootConfig = rootConfig;
         ClowderRecorder.model = loadModel();
     }
 
     private Clowder loadModel() {
-        var configFilePath = ClowderRecorder.clowderConfigFile.getAbsolutePath();
-        if (!ClowderRecorder.clowderConfigFile.exists()) {
+        var configFile = new File(ClowderRecorder.rootConfig.configPath);
+        var configFilePath = configFile.getAbsolutePath();
+        if (!configFile.exists()) {
             throw new RuntimeException("Can't read clowder config at " + configFilePath);
         }
 
-        try (InputStream is = new FileInputStream(clowderConfigFile)) {
+        try (InputStream is = new FileInputStream(configFile)) {
             return yaml().load(is);
         } catch (IOException ex) {
             throw new RuntimeException("Error reading the clowder config file at " + configFilePath);

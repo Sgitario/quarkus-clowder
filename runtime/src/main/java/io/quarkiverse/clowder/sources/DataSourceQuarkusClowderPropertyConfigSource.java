@@ -1,7 +1,9 @@
 package io.quarkiverse.clowder.sources;
 
 import static io.quarkiverse.clowder.utils.CertUtils.createTempCertFile;
+import static io.quarkiverse.clowder.utils.ConfigUtils.CLOWDER_DATASOURCE_PORT;
 import static io.quarkiverse.clowder.utils.ConfigUtils.QUARKUS_DATASOURCE;
+import static io.quarkiverse.clowder.utils.ConfigUtils.getOptionalApplicationProperty;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,10 +26,12 @@ public abstract class DataSourceQuarkusClowderPropertyConfigSource extends Quark
 
     protected static String getHostPortDb() {
         var database = getDatabaseModel();
+        var port = getOptionalApplicationProperty(CLOWDER_DATASOURCE_PORT)
+                .map(Integer::parseInt);
         return String.format("%s://%s:%d/%s",
                 POSTGRESQL,
                 database.hostname,
-                database.port,
+                port.orElse(database.port),
                 database.name);
     }
 
