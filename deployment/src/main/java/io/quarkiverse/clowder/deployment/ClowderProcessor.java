@@ -1,7 +1,13 @@
 package io.quarkiverse.clowder.deployment;
 
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import io.quarkiverse.clowder.ClowderConfigSourceFactoryBuilder;
+import io.quarkiverse.clowder.ClowderFeature;
 import io.quarkiverse.clowder.ClowderRecorder;
+import io.quarkus.deployment.Capabilities;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.annotations.ExecutionTime;
@@ -22,7 +28,21 @@ public class ClowderProcessor {
 
     @BuildStep(onlyIf = ClowderEnabled.class)
     @Record(ExecutionTime.STATIC_INIT)
-    void init(ClowderConfig config, ClowderRecorder recorder) {
-        recorder.loadClowder(config.prefix(), config.configPath());
+    void init(Capabilities capabilities, ClowderConfig config, ClowderRecorder recorder) {
+        recorder.initialize(capabilities.getCapabilities(),
+                Stream.of(ClowderFeature.values())
+                        .filter(isEnabledInConfig(config))
+                        .collect(Collectors.toUnmodifiableSet()),
+                config.prefix(),
+                config.configPath());
+    }
+
+    private Predicate<ClowderFeature> isEnabledInConfig(ClowderConfig config) {
+        // the clowder feature is enabled if it's not configured or it's explicitly set to false.
+        return f -> switch (f) {
+            case WEB -> config.web().enabled();
+            case CONFIG -> config.config().enabled();
+            case DATASOURCE -> config.datasource().enabled();
+        };
     }
 }

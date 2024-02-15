@@ -1,10 +1,9 @@
 package io.quarkiverse.clowder.sources;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-import io.quarkus.runtime.configuration.ConfigUtils;
+import io.quarkiverse.clowder.ClowderRecorder;
+import io.quarkiverse.clowder.model.Clowder;
 import io.smallrye.config.common.MapBackedConfigSource;
 
 public abstract class QuarkusClowderPropertyConfigSource extends MapBackedConfigSource {
@@ -19,7 +18,7 @@ public abstract class QuarkusClowderPropertyConfigSource extends MapBackedConfig
         return 270;
     }
 
-    protected static Optional<String> getOptionalApplicationProperty(String key) {
-        return ConfigUtils.getFirstOptionalValue(List.of(key), String.class);
+    protected static Clowder getModel() {
+        return ClowderRecorder.model;
     }
 }

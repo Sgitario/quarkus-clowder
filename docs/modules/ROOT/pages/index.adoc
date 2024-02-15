@@ -6,7 +6,7 @@ include::./includes/attributes.adoc[]
 :config-file: application.properties
 :extension-status: preview
 
-[Clowder](https://github.com/RedHatInsights/clowder) is a kubernetes operator designed to make it easy to deploy
+https://github.com/RedHatInsights/clowder[Clowder] is a kubernetes operator designed to make it easy to deploy
 applications running on the cloud.redhat.com platform in production, testing and local development environments.
 
 When deploying a Quarkus service on the cloud, the Clowder operator provides a config file that the services need
@@ -189,3 +189,40 @@ some-db
 
 **Note**: The Quarkus service will be listening on port 8000 because the Clowder file contains `webPort: 8000`.
 
+== Datasource Configuration
+
+The Quarkus Clowder configuration will automatically configure the Hibernate ORM or Hibernate Reactive extensions.
+All you need is to provide the datasource configuration in the clowder config file as follows:
+
+[source,json]
+----
+{
+  "database": {
+    "adminPassword": "s3cr3t",
+    "adminUsername": "postgres",
+    "hostname": "some.host",
+    "name": "some-db",
+    "password": "secret",
+    "port": 15432,
+    "sslMode": "require",
+    "username": "aUser"
+  },
+  ...
+}
+----
+
+Plus, configure the `db-kind` to use (this is a mandatory property for Quarkus):
+
+[source,properties]
+----
+quarkus.datasource.db-kind=postgresql
+----
+
+Then, the Quarkus Clowder extension will detect which Hibernate ORM or Hibernate Reactive is in use and configure the JDBC connection accordingly.
+
+**Note**: In case of you're using other `db-kind` than `postgresl` or you don't have any Quarkus Hibernate extension, then the Quarkus Clowder extension will do nothing since Clowder only supports postgresql.
+
+[[configuration-reference]]
+== Configuration Reference
+
+include::includes/quarkus-clowder.adoc[]
