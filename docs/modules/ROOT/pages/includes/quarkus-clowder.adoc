@@ -162,4 +162,140 @@ endif::add-copy-button-to-env-var[]
 --|boolean 
 |`true`
 
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-resources-enabled]]`link:#quarkus-clowder_quarkus-clowder-resources-enabled[quarkus.clowder.resources.enabled]`
+
+
+[.description]
+--
+Enable/Disable the clowder feature.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_RESOURCES_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_RESOURCES_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--|boolean 
+|`true`
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-resources-input-file]]`link:#quarkus-clowder_quarkus-clowder-resources-input-file[quarkus.clowder.resources.input-file]`
+
+
+[.description]
+--
+The input file in which to place the user-defined ClowdApp template which will be used as inputs to populate the generated clowdapp.yaml. The file must contain a resource of type Template.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_RESOURCES_INPUT_FILE+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_RESOURCES_INPUT_FILE+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|`src/main/resources/clowdapp.yaml`
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-resources-output-file]]`link:#quarkus-clowder_quarkus-clowder-resources-output-file[quarkus.clowder.resources.output-file]`
+
+
+[.description]
+--
+Allow to overwrite the kafka port of the clowder config.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_RESOURCES_OUTPUT_FILE+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_RESOURCES_OUTPUT_FILE+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|`deploy/clowdapp.yaml`
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-resources-env-name]]`link:#quarkus-clowder_quarkus-clowder-resources-env-name[quarkus.clowder.resources.env-name]`
+
+
+[.description]
+--
+The name of the ClowdEnvironment providing the services.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_RESOURCES_ENV_NAME+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_RESOURCES_ENV_NAME+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-resources-deployment-name]]`link:#quarkus-clowder_quarkus-clowder-resources-deployment-name[quarkus.clowder.resources.deployment-name]`
+
+
+[.description]
+--
+The name of the deployment that will use the ClowdApp resource.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_RESOURCES_DEPLOYMENT_NAME+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_RESOURCES_DEPLOYMENT_NAME+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|`service`
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-resources-replicas]]`link:#quarkus-clowder_quarkus-clowder-resources-replicas[quarkus.clowder.resources.replicas]`
+
+
+[.description]
+--
+The number of replicas that the ClowdApp resource will use.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_RESOURCES_REPLICAS+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_RESOURCES_REPLICAS+++`
+endif::add-copy-button-to-env-var[]
+--|int 
+|`1`
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-resources-image]]`link:#quarkus-clowder_quarkus-clowder-resources-image[quarkus.clowder.resources.image]`
+
+
+[.description]
+--
+Image of the ClowdApp resource. If not provided, it will use the generated image from the Quarkus Container Image extensions. If there is no a Quarkus Container Image configured, it will fail.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_RESOURCES_IMAGE+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_RESOURCES_IMAGE+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-resources-labels-labels]]`link:#quarkus-clowder_quarkus-clowder-resources-labels-labels[quarkus.clowder.resources.labels]`
+
+
+[.description]
+--
+Labels to be included in the generated ClowdApp resource.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_RESOURCES_LABELS+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_RESOURCES_LABELS+++`
+endif::add-copy-button-to-env-var[]
+--|`Map<String,String>` 
+|
+
 |===

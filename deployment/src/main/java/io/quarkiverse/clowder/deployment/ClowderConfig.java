@@ -53,4 +53,10 @@ public interface ClowderConfig {
      * configuration.
      */
     ClowderFeatureConfig metrics();
+
+    /**
+     * Configure the generation of the Clowder resources.
+     */
+
+    ClowderResourcesFeatureConfig resources();
 }

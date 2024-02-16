@@ -290,6 +290,66 @@ Finally, the metrics path will be listening on:
 curl localhost:9000/metrics
 ----
 
+== Resources Manifests Generation Configuration
+
+The Quarkus Clowder configuration will generate the ClowdApp manifests to be installed on an OpenShift cluster.
+By default, the Clowder manifests will be generated at the output folder `deploy/clowdapp.yaml` at build time.
+
+This file will contain a OpenShift template resource with parameters and all the Clowd resources, for example:
+
+[source,yaml]
+----
+---
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: quarkus-clowder-integration-tests-resources
+objects:
+  - apiVersion: cloud.redhat.com/v1alpha1
+    kind: ClowdApp
+    metadata:
+      labels:
+        label-a: label-value-a
+      name: quarkus-clowder-integration-tests-resources
+    spec:
+      deployments:
+        - name: service
+          podSpec:
+            image: ${IMAGE}:${IMAGE_TAG}
+          replicas: 1
+          webServices:
+            public:
+              enabled: true
+      envName: ${ENV_NAME}
+parameters:
+  - name: ENV_NAME
+    value: test-environment
+  - name: IMAGE
+    value: quay.io/user/my-image
+  - name: IMAGE_TAG
+    value: latest
+
+----
+
+To generate the above manifests, it's mandatory to set the pod image. So, either configure any of the Quarkus Container Image extensions to build one, or provide a container image to use via properties:
+
+[source,properties]
+----
+quarkus.clowder.resources.image=quay.io/user/my-image:latest
+----
+
+There are many other options to tweak the generated resources, for example:
+
+[source,properties]
+----
+quarkus.clowder.resources.env-name=test-environment
+quarkus.clowder.resources.labels.label-a=label-value-a
+----
+
+To see all the options, go to the xref:#configuration-reference[Configuration Reference].
+
+Another option is to provide an input Template resource that will be used to bootstrap the generated one. For doing this, you need to add a `clowdapp.yaml` at the `src/main/resources` folder.
+
 [[configuration-reference]]
 == Configuration Reference
 

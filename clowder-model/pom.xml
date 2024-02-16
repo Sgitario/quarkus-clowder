@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.quarkiverse.clowder</groupId>
+    <artifactId>quarkus-clowder-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>quarkus-clowder-model</artifactId>
+  <name>Quarkus - Clowder - Model</name>
+  <dependencies>
+    <dependency>
+      <groupId>io.fabric8</groupId>
+      <artifactId>kubernetes-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.fabric8</groupId>
+      <artifactId>generator-annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.fabric8</groupId>
+      <artifactId>openshift-model</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>java-generator-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <source>src/main/resources/</source>
+          <extraAnnotations>false</extraAnnotations>
+          <generatedAnnotations>false</generatedAnnotations>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
