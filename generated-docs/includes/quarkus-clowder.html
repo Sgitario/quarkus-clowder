@@ -182,12 +182,148 @@
 <td class="tableblock halign-left valign-middle"><p class="tableblock">boolean</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><code>true</code></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-resources-enabled"></a><code><a href="#quarkus-clowder_quarkus-clowder-resources-enabled">quarkus.clowder.resources.enabled</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Enable/Disable the clowder feature.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_RESOURCES_ENABLED</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>true</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-resources-input-file"></a><code><a href="#quarkus-clowder_quarkus-clowder-resources-input-file">quarkus.clowder.resources.input-file</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>The input file in which to place the user-defined ClowdApp template which will be used as inputs to populate the generated clowdapp.yaml. The file must contain a resource of type Template.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_RESOURCES_INPUT_FILE</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>src/main/resources/clowdapp.yaml</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-resources-output-file"></a><code><a href="#quarkus-clowder_quarkus-clowder-resources-output-file">quarkus.clowder.resources.output-file</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Allow to overwrite the kafka port of the clowder config.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_RESOURCES_OUTPUT_FILE</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>deploy/clowdapp.yaml</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-resources-env-name"></a><code><a href="#quarkus-clowder_quarkus-clowder-resources-env-name">quarkus.clowder.resources.env-name</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>The name of the ClowdEnvironment providing the services.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_RESOURCES_ENV_NAME</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-resources-deployment-name"></a><code><a href="#quarkus-clowder_quarkus-clowder-resources-deployment-name">quarkus.clowder.resources.deployment-name</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>The name of the deployment that will use the ClowdApp resource.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_RESOURCES_DEPLOYMENT_NAME</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>service</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-resources-replicas"></a><code><a href="#quarkus-clowder_quarkus-clowder-resources-replicas">quarkus.clowder.resources.replicas</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>The number of replicas that the ClowdApp resource will use.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_RESOURCES_REPLICAS</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>1</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-resources-image"></a><code><a href="#quarkus-clowder_quarkus-clowder-resources-image">quarkus.clowder.resources.image</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Image of the ClowdApp resource. If not provided, it will use the generated image from the Quarkus Container Image extensions. If there is no a Quarkus Container Image configured, it will fail.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_RESOURCES_IMAGE</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-resources-labels-labels"></a><code><a href="#quarkus-clowder_quarkus-clowder-resources-labels-labels">quarkus.clowder.resources.labels</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Labels to be included in the generated ClowdApp resource.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_RESOURCES_LABELS</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>Map&lt;String,String&gt;</code></p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
 </tbody>
 </table>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-15 16:11:33 +0100
+Last updated 2024-02-16 13:24:32 +0100
 </div>
 </div>
 </body>

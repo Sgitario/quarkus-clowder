@@ -36,5 +36,10 @@
       <artifactId>quarkus-clowder</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>io.quarkiverse.clowder</groupId>
+      <artifactId>quarkus-clowder-model</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>

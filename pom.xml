@@ -12,6 +12,7 @@
   <packaging>pom</packaging>
   <name>Quarkus - Clowder - Parent</name>
   <modules>
+    <module>clowder-model</module>
     <module>deployment</module>
     <module>runtime</module>
     <module>integration-tests</module>
