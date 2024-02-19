@@ -325,6 +325,129 @@ mp.messaging.incoming.prices.topic=${clowder.kafka.topics.platform.notifications
 </div>
 </div>
 <div class="sect1">
+<h2 id="endpoints-configuration"><a class="anchor" href="#endpoints-configuration"></a>Endpoints Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Clowder configuration includes the endpoints configuration that the service needs. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="error">.</span><span class="error">.</span><span class="error">.</span>
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">endpoints</span><span class="delimiter">&quot;</span></span>: [
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">api</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">app</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">notifications</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">hostname</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">service.host1</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">port</span><span class="delimiter">&quot;</span></span>: <span class="integer">8081</span>
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">api</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">app</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">another</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">hostname</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">service.host2</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">port</span><span class="delimiter">&quot;</span></span>: <span class="integer">8081</span>
+    }
+  ],
+  <span class="error">.</span><span class="error">.</span><span class="error">.</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To use the above endpoints in Quarkus, you generally need either the Quarkus REST Client Reactive or the Quarkus REST Client Legacy extensions. Then, when any of these extensions are present, the Quarkus Clowder extension will autoconfigure these REST Clients automatically by using the URL provided from the Clowder configuration file.
+For example, let&#8217;s add the following REST Client interface:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">io.quarkiverse.clowder.tests.endpoints</span>;
+
+<span class="keyword">import</span> <span class="include">jakarta.ws.rs.GET</span>;
+<span class="keyword">import</span> <span class="include">jakarta.ws.rs.Path</span>;
+
+<span class="keyword">import</span> <span class="include">org.eclipse.microprofile.rest.client.inject.RegisterRestClient</span>;
+
+<span class="annotation">@RegisterRestClient</span>
+<span class="annotation">@Path</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/database/name</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">interface</span> <span class="class">AnotherApi</span> {
+
+    <span class="annotation">@GET</span>
+    <span class="predefined-type">String</span> getDatabaseName();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the above example, we want to use the Clowder endpoint configuration with app "another" and name "api", so we would need to add the following property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="properties">quarkus.clowder.endpoints.&quot;another.api&quot;.client=io.quarkiverse.clowder.tests.endpoints.AnotherApi</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the Quarkus Clowder extension will autoconfigure the REST Client URL and the certification configuration if needed.</p>
+</div>
+<div class="paragraph">
+<p>Another option to generate the REST Client is via <a href="https://docs.quarkiverse.io/quarkus-openapi-generator/dev/index.html">the Quarkus OpenAPI generator</a> extension:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+  <span class="tag">&lt;groupId&gt;</span>io.quarkiverse.openapi.generator<span class="tag">&lt;/groupId&gt;</span>
+  <span class="tag">&lt;artifactId&gt;</span>quarkus-openapi-generator<span class="tag">&lt;/artifactId&gt;</span>
+  <span class="tag">&lt;version&gt;</span>...<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When using this method, you need to provide the openapi definition at the <code>src/main/openapi</code> folder. For example, let&#8217;s add the <code>notifications_api.yaml</code> file with the following content:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">openapi</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">3.0.2</span><span class="delimiter">&quot;</span></span>
+<span class="key">info</span>:
+  <span class="key">title</span>: <span class="string"><span class="content">Test API</span></span>
+  <span class="key">version</span>: <span class="string"><span class="content">1.0.0</span></span>
+
+<span class="key">paths</span>:
+  <span class="key">/database/name</span>:
+    <span class="key">get</span>:
+      <span class="key">operationId</span>: <span class="string"><span class="content">getDatabaseName</span></span>
+      <span class="key">responses</span>:
+        <span class="key"><span class="delimiter">'</span><span class="content">200</span><span class="delimiter">'</span></span>:
+          <span class="key">description</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Returned database name.</span><span class="delimiter">&quot;</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When building the service, the REST Client interface will be automatically generated and by default it will look like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">/**
+  * Test API
+  * &lt;p&gt;No description provided (generated by Openapi Generator https://github.com/openapitools/openapi-generator)&lt;/p&gt;
+  */</span>
+<span class="annotation">@Path</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/database/name</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@RegisterRestClient</span>( configKey=<span class="string"><span class="delimiter">&quot;</span><span class="content">notifications_api_yaml</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@GeneratedClass</span>(value=<span class="string"><span class="delimiter">&quot;</span><span class="content">notifications_api.yaml</span><span class="delimiter">&quot;</span></span>, tag = <span class="string"><span class="delimiter">&quot;</span><span class="content">Default</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@ApplicationScoped</span>
+<span class="directive">public</span> <span class="type">interface</span> <span class="class">DefaultApi</span> {
+
+    <span class="annotation">@GET</span>
+    <span class="annotation">@GeneratedMethod</span> (<span class="string"><span class="delimiter">&quot;</span><span class="content">getDatabaseName</span><span class="delimiter">&quot;</span></span>)
+    <span class="directive">public</span> jakarta.ws.rs.core.Response getDatabaseName(
+    );
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, if the openapi definition file matches the following convention <code>&lt;clowder endpoint app&gt;_&lt;clowder endpoint name&gt;.yaml</code>, the Quarkus Clowder extension will autoconfigure everything by you, so you don&#8217;t need to add any configuration at all.</p>
+</div>
+<div class="paragraph">
+<p>Note that both methods are perfectly compatible with each other at the same time.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="metrics-configuration"><a class="anchor" href="#metrics-configuration"></a>Metrics Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -738,6 +861,79 @@ quarkus.clowder.resources.labels.label-a=label-value-a</code></pre>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><code>Map&lt;String,String&gt;</code></p></td>
 <td class="tableblock halign-left valign-middle"></td>
 </tr>
+<tr>
+<th class="tableblock halign-left valign-top"><p class="tableblock"><a id="quarkus-clowder_quarkus-clowder-endpoints-allow-to-individually-configure-the-endpoints"></a><a href="#quarkus-clowder_quarkus-clowder-endpoints-allow-to-individually-configure-the-endpoints">Allow to individually configure the endpoints</a></p></th>
+<th class="tableblock halign-left valign-middle"><p class="tableblock">Type</p></th>
+<th class="tableblock halign-left valign-middle"><p class="tableblock">Default</p></th>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-endpoints-endpoints-enabled"></a><code><a href="#quarkus-clowder_quarkus-clowder-endpoints-endpoints-enabled">quarkus.clowder.endpoints."endpoints".enabled</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Enable/Disable the clowder feature.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_ENDPOINTS__ENDPOINTS__ENABLED</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>true</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-endpoints-endpoints-client"></a><code><a href="#quarkus-clowder_quarkus-clowder-endpoints-endpoints-client">quarkus.clowder.endpoints."endpoints".client</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Fully qualified class matching the rest-client interface to configure.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_ENDPOINTS__ENDPOINTS__CLIENT</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-endpoints-endpoints-hostname"></a><code><a href="#quarkus-clowder_quarkus-clowder-endpoints-endpoints-hostname">quarkus.clowder.endpoints."endpoints".hostname</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Allow to overwrite the hostname for the current endpoint.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_ENDPOINTS__ENDPOINTS__HOSTNAME</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-endpoints-endpoints-port"></a><code><a href="#quarkus-clowder_quarkus-clowder-endpoints-endpoints-port">quarkus.clowder.endpoints."endpoints".port</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Allow to overwrite the port for the current endpoint.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_ENDPOINTS__ENDPOINTS__PORT</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -745,7 +941,7 @@ quarkus.clowder.resources.labels.label-a=label-value-a</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-16 13:21:15 +0100
+Last updated 2024-02-19 09:50:59 +0100
 </div>
 </div>
 </body>

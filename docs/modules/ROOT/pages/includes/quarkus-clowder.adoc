@@ -298,4 +298,77 @@ endif::add-copy-button-to-env-var[]
 --|`Map<String,String>` 
 |
 
+
+h|[[quarkus-clowder_quarkus-clowder-endpoints-allow-to-individually-configure-the-endpoints]]link:#quarkus-clowder_quarkus-clowder-endpoints-allow-to-individually-configure-the-endpoints[Allow to individually configure the endpoints]
+
+h|Type
+h|Default
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-endpoints-endpoints-enabled]]`link:#quarkus-clowder_quarkus-clowder-endpoints-endpoints-enabled[quarkus.clowder.endpoints."endpoints".enabled]`
+
+
+[.description]
+--
+Enable/Disable the clowder feature.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_ENDPOINTS__ENDPOINTS__ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_ENDPOINTS__ENDPOINTS__ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--|boolean 
+|`true`
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-endpoints-endpoints-client]]`link:#quarkus-clowder_quarkus-clowder-endpoints-endpoints-client[quarkus.clowder.endpoints."endpoints".client]`
+
+
+[.description]
+--
+Fully qualified class matching the rest-client interface to configure.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_ENDPOINTS__ENDPOINTS__CLIENT+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_ENDPOINTS__ENDPOINTS__CLIENT+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-endpoints-endpoints-hostname]]`link:#quarkus-clowder_quarkus-clowder-endpoints-endpoints-hostname[quarkus.clowder.endpoints."endpoints".hostname]`
+
+
+[.description]
+--
+Allow to overwrite the hostname for the current endpoint.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_ENDPOINTS__ENDPOINTS__HOSTNAME+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_ENDPOINTS__ENDPOINTS__HOSTNAME+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-clowder_quarkus-clowder-endpoints-endpoints-port]]`link:#quarkus-clowder_quarkus-clowder-endpoints-endpoints-port[quarkus.clowder.endpoints."endpoints".port]`
+
+
+[.description]
+--
+Allow to overwrite the port for the current endpoint.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_CLOWDER_ENDPOINTS__ENDPOINTS__PORT+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_CLOWDER_ENDPOINTS__ENDPOINTS__PORT+++`
+endif::add-copy-button-to-env-var[]
+--|int 
+|
+
 |===

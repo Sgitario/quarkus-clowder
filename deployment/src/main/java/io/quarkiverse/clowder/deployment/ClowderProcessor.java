@@ -3,6 +3,7 @@ package io.quarkiverse.clowder.deployment;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -13,6 +14,7 @@ import io.fabric8.openshift.api.model.Template;
 import io.quarkiverse.clowder.ClowderConfigSourceFactoryBuilder;
 import io.quarkiverse.clowder.ClowderFeature;
 import io.quarkiverse.clowder.ClowderRecorder;
+import io.quarkiverse.clowder.config.EndpointConfig;
 import io.quarkiverse.clowder.config.RootConfig;
 import io.quarkiverse.clowder.deployment.resources.EnvNameClowdAppResourceDecorator;
 import io.quarkiverse.clowder.deployment.resources.ImageDeploymentClowdAppResourceDecorator;
@@ -97,6 +99,14 @@ public class ClowderProcessor {
                 .collect(Collectors.toUnmodifiableSet());
         rootConfig.prefix = config.prefix();
         rootConfig.configPath = config.configPath();
+        rootConfig.endpoints = new HashMap<>();
+        for (var endpoint : config.endpoints().entrySet()) {
+            var endpointConfig = new EndpointConfig();
+            endpointConfig.client = endpoint.getValue().client();
+            endpointConfig.hostname = endpoint.getValue().hostname();
+            endpointConfig.port = endpoint.getValue().port();
+            rootConfig.endpoints.put(endpoint.getKey(), endpointConfig);
+        }
 
         recorder.initialize(capabilities.getCapabilities(), rootConfig);
     }
@@ -109,6 +119,7 @@ public class ClowderProcessor {
             case DATASOURCE -> config.datasource().enabled();
             case KAFKA -> config.kafka().enabled();
             case METRICS -> config.metrics().enabled();
+            case RESOURCES -> config.resources().enabled();
         };
     }
 

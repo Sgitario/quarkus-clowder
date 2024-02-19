@@ -7,6 +7,8 @@ import static io.quarkiverse.clowder.utils.ConfigUtils.KAFKA;
 import static io.quarkiverse.clowder.utils.ConfigUtils.QUARKUS_DATASOURCE_DB_KIND;
 import static io.quarkiverse.clowder.utils.ConfigUtils.QUARKUS_MICROMETER_ENABLED;
 import static io.quarkiverse.clowder.utils.ConfigUtils.QUARKUS_MICROMETER_EXPORT_PROMETHEUS_ENABLED;
+import static io.quarkiverse.clowder.utils.ConfigUtils.REST_CLIENT;
+import static io.quarkiverse.clowder.utils.ConfigUtils.REST_CLIENT_REACTIVE;
 import static io.quarkiverse.clowder.utils.ConfigUtils.getBooleanApplicationProperty;
 import static io.quarkiverse.clowder.utils.ConfigUtils.getOptionalApplicationProperty;
 import static io.quarkiverse.clowder.utils.ConfigUtils.isCapabilityPresent;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import org.jboss.logging.Logger;
 
 import io.quarkiverse.clowder.sources.ClowderJsonConfigSource;
+import io.quarkiverse.clowder.sources.EndpointsQuarkusClowderPropertyConfigSource;
 import io.quarkiverse.clowder.sources.JdbcDataSourceQuarkusClowderPropertyConfigSource;
 import io.quarkiverse.clowder.sources.KafkaQuarkusClowderPropertyConfigSource;
 import io.quarkiverse.clowder.sources.MetricsQuarkusClowderPropertyConfigSource;
@@ -51,6 +54,9 @@ public class ClowderConfigSourceFactoryBuilder implements ConfigBuilder {
         }
         if (isFeatureEnabled(ClowderFeature.METRICS) && isMicrometerPrometheusEnabled() && isClowderMetricsConfigured()) {
             builder = builder.withSources(clowderMetrics());
+        }
+        if (isCapabilityPresent(REST_CLIENT) || isCapabilityPresent(REST_CLIENT_REACTIVE)) {
+            builder = builder.withSources(clowderEndpoints());
         }
 
         return builder;
@@ -116,5 +122,9 @@ public class ClowderConfigSourceFactoryBuilder implements ConfigBuilder {
 
     private static MetricsQuarkusClowderPropertyConfigSource clowderMetrics() {
         return new MetricsQuarkusClowderPropertyConfigSource();
+    }
+
+    private static EndpointsQuarkusClowderPropertyConfigSource clowderEndpoints() {
+        return new EndpointsQuarkusClowderPropertyConfigSource();
     }
 }

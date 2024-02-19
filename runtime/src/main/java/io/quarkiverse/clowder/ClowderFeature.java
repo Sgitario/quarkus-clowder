@@ -20,5 +20,9 @@ public enum ClowderFeature {
     /**
      * Feature to configure the metrics (micrometer) using the Clowder configuration.
      */
-    METRICS
+    METRICS,
+    /**
+     * Feature to configure the generation of resources using the Clowder configuration.
+     */
+    RESOURCES
 }

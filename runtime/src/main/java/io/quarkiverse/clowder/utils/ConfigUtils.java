@@ -11,12 +11,15 @@ public class ConfigUtils {
     public static final String KAFKA = QUARKUS_PREFIX + ".kafka";
     public static final String HIBERNATE_REACTIVE = QUARKUS_PREFIX + ".hibernate.reactive";
     public static final String HIBERNATE_ORM = QUARKUS_PREFIX + ".hibernate.orm";
+    public static final String REST_CLIENT = QUARKUS_PREFIX + ".rest.client";
+    public static final String REST_CLIENT_REACTIVE = REST_CLIENT + ".reactive";
     public static final String QUARKUS_DATASOURCE = "quarkus.datasource.";
     public static final String QUARKUS_DATASOURCE_DB_KIND = QUARKUS_DATASOURCE + "db-kind";
     public static final String QUARKUS_MICROMETER_ENABLED = "quarkus.micrometer.enabled";
     public static final String QUARKUS_MICROMETER_EXPORT_PROMETHEUS_ENABLED = "quarkus.micrometer.export.prometheus.enabled";
     public static final String CLOWDER_DATASOURCE_PORT = "quarkus.clowder.datasource.port";
     public static final String CLOWDER_KAFKA_PORT = "quarkus.clowder.kafka.port";
+    public static final String OPENAPI_CLASS = "io.quarkiverse.openapi.generator.OpenApiGeneratorConfig";
 
     private ConfigUtils() {
 
@@ -32,5 +35,15 @@ public class ConfigUtils {
 
     public static boolean isCapabilityPresent(String capability) {
         return ClowderRecorder.capabilities.contains(capability);
+    }
+
+    public static boolean isOpenApiGeneratorPresent() {
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        try {
+            cl.loadClass(OPENAPI_CLASS);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 }
