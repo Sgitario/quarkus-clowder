@@ -1,0 +1,22 @@
+{
+  "database": {
+    "name": "some-db"
+  },
+  "endpoints": [
+    {
+      "name": "api",
+      "app": "notifications",
+      "hostname": "localhost",
+      "port": 8081
+    },
+    {
+      "name": "api",
+      "app": "another",
+      "hostname": "localhost",
+      "port": 8081
+    }
+  ],
+  "privatePort": 10000,
+  "publicPort": 8000,
+  "webPort": 8000
+}

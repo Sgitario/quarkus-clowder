@@ -1,5 +1,8 @@
 package io.quarkiverse.clowder.deployment;
 
+import java.util.Map;
+
+import io.quarkus.runtime.annotations.ConfigDocSection;
 import io.quarkus.runtime.annotations.ConfigPhase;
 import io.quarkus.runtime.annotations.ConfigRoot;
 import io.smallrye.config.ConfigMapping;
@@ -57,6 +60,11 @@ public interface ClowderConfig {
     /**
      * Configure the generation of the Clowder resources.
      */
-
     ClowderResourcesFeatureConfig resources();
+
+    /**
+     * Allow to individually configure the endpoints.
+     */
+    @ConfigDocSection
+    Map<String, ClowderEndpointFeatureConfig> endpoints();
 }
