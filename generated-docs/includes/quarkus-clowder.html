@@ -167,6 +167,40 @@
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-kafka-port"></a><code><a href="#quarkus-clowder_quarkus-clowder-kafka-port">quarkus.clowder.kafka.port</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Allow to overwrite the kafka port of the clowder config.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_KAFKA_PORT</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-kafka-use-topic-name-from-property"></a><code><a href="#quarkus-clowder_quarkus-clowder-kafka-use-topic-name-from-property">quarkus.clowder.kafka.use-topic-name-from-property</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>When configuring a channel like <code>mp.messaging.incoming.prices.topic=${clowder.kafka.topics."platform.notifications.ingress".name}</code> In case the topic "platform.notifications.ingress" does not exist in Clowder configuration, then it will use "platform.notifications.ingress" as topic name.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_KAFKA_USE_TOPIC_NAME_FROM_PROPERTY</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>true</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-metrics-enabled"></a><code><a href="#quarkus-clowder_quarkus-clowder-metrics-enabled">quarkus.clowder.metrics.enabled</a></code></p>
 </div>
 <div class="openblock description">
@@ -319,6 +353,28 @@
 <td class="tableblock halign-left valign-middle"></td>
 </tr>
 <tr>
+<th class="tableblock halign-left valign-top"><p class="tableblock"><a id="quarkus-clowder_quarkus-clowder-kafka-topics-topics-configuration"></a><a href="#quarkus-clowder_quarkus-clowder-kafka-topics-topics-configuration">Topics configuration</a></p></th>
+<th class="tableblock halign-left valign-middle"><p class="tableblock">Type</p></th>
+<th class="tableblock halign-left valign-middle"><p class="tableblock">Default</p></th>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="icon"><i class="fa fa-lock" title="Fixed at build time"></i></span> <a id="quarkus-clowder_quarkus-clowder-kafka-topics-topics-name"></a><code><a href="#quarkus-clowder_quarkus-clowder-kafka-topics-topics-name">quarkus.clowder.kafka.topics."topics".name</a></code></p>
+</div>
+<div class="openblock description">
+<div class="content">
+<div class="paragraph">
+<p>Name of the topic to use.</p>
+</div>
+<div class="paragraph">
+<p>Environment variable: <code>QUARKUS_CLOWDER_KAFKA_TOPICS__TOPICS__NAME</code></p>
+</div>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-middle"></td>
+</tr>
+<tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock"><a id="quarkus-clowder_quarkus-clowder-endpoints-allow-to-individually-configure-the-endpoints"></a><a href="#quarkus-clowder_quarkus-clowder-endpoints-allow-to-individually-configure-the-endpoints">Allow to individually configure the endpoints</a></p></th>
 <th class="tableblock halign-left valign-middle"><p class="tableblock">Type</p></th>
 <th class="tableblock halign-left valign-middle"><p class="tableblock">Default</p></th>
@@ -396,7 +452,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-19 09:55:34 +0100
+Last updated 2024-02-22 15:36:50 +0100
 </div>
 </div>
 </body>

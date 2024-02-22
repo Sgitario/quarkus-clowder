@@ -15,6 +15,8 @@ import io.quarkiverse.clowder.ClowderConfigSourceFactoryBuilder;
 import io.quarkiverse.clowder.ClowderFeature;
 import io.quarkiverse.clowder.ClowderRecorder;
 import io.quarkiverse.clowder.config.EndpointConfig;
+import io.quarkiverse.clowder.config.KafkaConfig;
+import io.quarkiverse.clowder.config.KafkaTopicConfig;
 import io.quarkiverse.clowder.config.RootConfig;
 import io.quarkiverse.clowder.deployment.resources.EnvNameClowdAppResourceDecorator;
 import io.quarkiverse.clowder.deployment.resources.ImageDeploymentClowdAppResourceDecorator;
@@ -106,6 +108,14 @@ public class ClowderProcessor {
             endpointConfig.hostname = endpoint.getValue().hostname();
             endpointConfig.port = endpoint.getValue().port();
             rootConfig.endpoints.put(endpoint.getKey(), endpointConfig);
+        }
+        rootConfig.kafkaConfig = new KafkaConfig();
+        rootConfig.kafkaConfig.port = config.kafka().port();
+        rootConfig.kafkaConfig.useTopicNameFromProperty = config.kafka().useTopicNameFromProperty();
+        for (var topicEntry : config.kafka().topics().entrySet()) {
+            var topicConfig = new KafkaTopicConfig();
+            topicConfig.name = topicEntry.getValue().name();
+            rootConfig.kafkaConfig.topics.put(topicEntry.getKey(), topicConfig);
         }
 
         recorder.initialize(capabilities.getCapabilities(), rootConfig);

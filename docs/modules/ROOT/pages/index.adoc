@@ -253,10 +253,10 @@ With the above configuration, the Quarkus Clowder extension will autoconfigure t
 [source,properties]
 ----
 mp.messaging.incoming.prices.connector=smallrye-kafka
-mp.messaging.incoming.prices.topic=${clowder.kafka.topics.platform.notifications.ingress}
+mp.messaging.incoming.prices.topic=${clowder.kafka.topics."platform.notifications.ingress".name}
 ----
 
-The property `clowder.kafka.topics.platform.notifications.ingress` will have the value `platform-tmp-12345`.
+The property `clowder.kafka.topics."platform.notifications.ingress".name` will have the value `platform-tmp-12345`.
 
 == Endpoints Configuration
 

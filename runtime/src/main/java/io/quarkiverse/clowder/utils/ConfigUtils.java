@@ -29,6 +29,11 @@ public class ConfigUtils {
         return getOptionalApplicationProperty(key).map(Boolean::parseBoolean).orElse(false);
     }
 
+    public static String getApplicationProperty(String key, String defaultValue) {
+        return io.quarkus.runtime.configuration.ConfigUtils.getFirstOptionalValue(List.of(key), String.class)
+                .orElse(defaultValue);
+    }
+
     public static Optional<String> getOptionalApplicationProperty(String key) {
         return io.quarkus.runtime.configuration.ConfigUtils.getFirstOptionalValue(List.of(key), String.class);
     }

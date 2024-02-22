@@ -10,4 +10,5 @@ public class RootConfig {
     public String prefix;
     public Set<ClowderFeature> enabledFeatures;
     public Map<String, EndpointConfig> endpoints;
+    public KafkaConfig kafkaConfig;
 }
