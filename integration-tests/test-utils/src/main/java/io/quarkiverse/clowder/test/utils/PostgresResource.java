@@ -12,7 +12,7 @@ import io.quarkus.test.common.QuarkusTestResourceLifecycleManager;
 
 public class PostgresResource implements QuarkusTestResourceLifecycleManager {
 
-    private static final DockerImageName IMAGE = DockerImageName.parse("quay.io/centos7/postgresql-13-centos7")
+    private static final DockerImageName IMAGE = DockerImageName.parse("quay.io/centos7/postgresql-13-centos7:centos7")
             .asCompatibleSubstituteFor("postgres");
     private static final String USERNAME = "aUser";
     private static final String PASSWORD = "secret";
