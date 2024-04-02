@@ -111,8 +111,8 @@ public class KafkaQuarkusClowderPropertyConfigSource extends QuarkusClowderPrope
             case "PLAIN" -> "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + username
                     + "\" password=\"" + password + "\";";
             case "SCRAM-SHA-512" ->
-                    "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"" + username
-                            + "\" password=\"" + password + "\";";
+                "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"" + username
+                        + "\" password=\"" + password + "\";";
             default -> null;
         };
 
